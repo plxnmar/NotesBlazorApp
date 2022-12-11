@@ -1,0 +1,139 @@
+﻿@using Notes.Domain.Entities
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+
+@{
+	var detailsStyle = (Note.Id == 0) ? "note-add" : "note-edit";
+}
+
+<div class="shadow p-2 rounded @detailsStyle">
+	<EditForm Model="@Note" OnValidSubmit="SaveNote" class=@detailsStyle>
+		<div class="form-group mb-1 @detailsStyle">
+			<input type="text" class="form-control border-0 @detailsStyle" id="title-note" @bind="Note.Title" placeholder="Введите заголовок">
+		</div>
+		<div class="form-group @detailsStyle">
+			<textarea class="form-control border-0 @detailsStyle" rows="1" id="details-note" @bind="Note.Details" placeholder="Текст..."></textarea>
+		</div>
+
+		<div class="form-group @detailsStyle">
+			<div class="dropdown d-inline">
+				<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+					Цвета
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+					@foreach (var color in colorList)
+					{
+						<li class="d-inline">
+							<a class="dropdown-item m-1 d-inline" href="#" style="background-color: #@color.Name; width: 1rem; height:2rem"
+						   @onclick="(() => SetColor(color))"></a>
+						</li>
+					}
+				</ul>
+			</div>
+		</div>
+		@if (Note.Id == 0)
+		{
+			<button type="submit" class="btn">Добавить</button>
+			<button type="button" class="btn" @onclick="CancelSubmit">Отменить</button>
+		}
+		else
+		{
+			<button type="submit" class="btn" data-bs-dismiss="modal">Сохранить</button>
+			<button type="button" class="btn" data-bs-dismiss="modal">Закрыть</button>
+		}
+	</EditForm>
+</div>
+
+
+<style>
+	.note-edit {
+		background-color: #@ColorEdit !important;
+	}
+
+	.note-add {
+		background-color: #@colorAdd !important;
+	}
+</style>
+
+@code {
+
+	[Parameter]
+	public Note Note { get; set; } = new();
+
+	[Parameter]
+	public string? ColorEdit { get; set; }
+
+	[Parameter]
+	public EventCallback SubmitFormNote { get; set; }
+
+	private List<ColorCard> colorList = new();
+
+	private string? colorAdd;
+
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			await GetColors();
+		}
+		catch (AccessTokenNotAvailableException exception)
+		{
+			exception.Redirect();
+		}
+	}
+
+	private async Task SaveNote()
+	{
+		if (Note.Id != 0)
+		{
+			Note.ChangedDate = DateTime.Now;
+			await Http.PutAsJsonAsync("api/notes", Note);
+
+			ColorEdit = "";
+		}
+		else
+		{
+			Note.CreatedDate = DateTime.Now;
+			Note.ChangedDate = DateTime.Now;
+			await Http.PostAsJsonAsync("api/notes", Note);
+
+			Note = new Note();
+			colorAdd = "";
+		}
+		await SubmitFormNote.InvokeAsync();
+	}
+
+
+	protected async Task GetColors()
+	{
+		colorList = await Http.GetFromJsonAsync<List<ColorCard>>("api/colors");
+	}
+
+
+	public void SetColor(ColorCard colorCard)
+	{
+		this.Note.ColorCardId = colorCard.Id;
+
+		if (Note.Id == 0)
+		{
+			colorAdd = colorCard.Name;
+		}
+		else
+		{
+			ColorEdit = colorCard.Name;
+		}
+
+		StateHasChanged();
+	}
+
+
+	public void CancelSubmit()
+	{
+		Note = new Note();
+		colorAdd = "";
+	}
+}

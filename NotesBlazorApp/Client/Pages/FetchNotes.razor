@@ -1,0 +1,126 @@
+﻿
+@page "/"
+@page "/fetchnotes"
+@using Notes.Domain.Entities
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+
+
+
+<PageTitle>Notes</PageTitle>
+
+
+<div class="row justify-content-center">
+	<div class="col-md-6 mb-4">
+		<NoteDetails SubmitFormNote="@UpdateNotes" />
+	</div>
+</div>
+@if (noteList != null)
+{
+	<div class="row masonry-row">
+		@foreach (var note in noteList)
+		{
+			<div class="masonry-col col-sm-6 col-lg-3 mb-4">
+				@{
+					var color = (note.ColorCard == null ? "white" : $"#{note.ColorCard.Name}");
+				}
+				<div class="card" style="background-color: @color">
+					<div class="card-body"
+				 onclick="@(() => ShowModal(note.Id))" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<h5 class="card-title">@note.Title</h5>
+						<p class="card-text"><pre>@note.Details</pre></p>
+						<p class="card-text"><small class="text-muted">@note.ChangedDate.ToString("d MMM yyyy") г.</small></p>
+					</div>
+					<div class="card-footer bg-transparent border-0">
+						<div class="form-group">
+							<input type="submit" value="Удалить" @onclick="(async () => await RemoveNote(note.Id))" class="btn" />
+						</div>
+
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+}
+
+
+
+<!-- Модальное окно -->
+
+<div class="modal fade" tabindex="-1" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content p-0">
+			<div class="modal-body p-0">
+				<NoteDetails Note=@_note
+							 ColorEdit="@(_note.ColorCard == null ? "white" : _note.ColorCard.Name)"
+							 SubmitFormNote="@UpdateNotes" />
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<style>
+	pre {
+  white-space: pre-wrap;
+}
+
+</style>
+@code {
+
+	private List<Note> noteList = new();
+	private Note _note = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			await UpdateNotes();
+			await JSRuntime.InvokeVoidAsync("initAutoSizeTextArea");
+		}
+		catch (AccessTokenNotAvailableException exception)
+		{
+			exception.Redirect();
+		}
+	}
+
+	private async Task UpdateNotes()
+	{
+		await GetNotes();
+		TriggerMasonry();
+	}
+
+	private async void TriggerMasonry()
+	{
+		StateHasChanged();
+		await JSRuntime.InvokeVoidAsync("initMasonry");
+	}
+
+	private async Task ShowModal(int id)
+	{
+		await GetNote(id);
+		StateHasChanged();
+		await JSRuntime.InvokeVoidAsync("initAutoSizeTextAreaModal");
+		StateHasChanged();
+	}
+
+	protected async Task GetNotes()
+	{
+		noteList = await Http.GetFromJsonAsync<List<Note>>("api/notes");
+	}
+
+	public async Task GetNote(int id)
+	{
+		_note = await Http.GetFromJsonAsync<Note>("api/notes/" + id);
+		StateHasChanged();
+	}
+
+	private async Task RemoveNote(int id)
+	{
+		await Http.DeleteAsync("api/notes/" + id);
+		await UpdateNotes();
+	}
+}
