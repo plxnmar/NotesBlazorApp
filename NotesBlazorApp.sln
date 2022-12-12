@@ -6,23 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesBlazorApp.Server", "NotesBlazorApp\Server\NotesBlazorApp.Server.csproj", "{974DC77F-01D7-4951-BDD2-DC65FBDF13BC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesBlazorApp.Client", "NotesBlazorApp\Client\NotesBlazorApp.Client.csproj", "{8A7B3540-3E51-44B1-BDB9-A38BF35627B8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{1837B24F-0B22-47D4-BC15-1845EC746AFD} = {1837B24F-0B22-47D4-BC15-1845EC746AFD}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesBlazorApp.Shared", "NotesBlazorApp\Shared\NotesBlazorApp.Shared.csproj", "{7451515D-5A0D-4F98-BD11-D9D46E3D082A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BLL", "BLL", "{C3BF7C40-EEA5-4F16-A61E-8D623830F835}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{632A4E85-8729-4FBF-85DB-50BA18515112}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{8D190D2E-D9A4-4720-9E51-E6B9581E9AB6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesBlazorApp.BLL", "NotesBlazorApp.BLL\NotesBlazorApp.BLL.csproj", "{961A36A0-D96B-4502-B148-C3A093090737}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesBlazorApp.DAL", "NotesBlazorApp.DAL\NotesBlazorApp.DAL.csproj", "{51367A17-1BB7-4F85-B12A-A3B11D15208F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesBlazorApp.Domain", "NotesBlazorApp.Domain\NotesBlazorApp.Domain.csproj", "{1837B24F-0B22-47D4-BC15-1845EC746AFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,26 +27,9 @@ Global
 		{7451515D-5A0D-4F98-BD11-D9D46E3D082A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7451515D-5A0D-4F98-BD11-D9D46E3D082A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7451515D-5A0D-4F98-BD11-D9D46E3D082A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{961A36A0-D96B-4502-B148-C3A093090737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{961A36A0-D96B-4502-B148-C3A093090737}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{961A36A0-D96B-4502-B148-C3A093090737}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{961A36A0-D96B-4502-B148-C3A093090737}.Release|Any CPU.Build.0 = Release|Any CPU
-		{51367A17-1BB7-4F85-B12A-A3B11D15208F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51367A17-1BB7-4F85-B12A-A3B11D15208F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51367A17-1BB7-4F85-B12A-A3B11D15208F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51367A17-1BB7-4F85-B12A-A3B11D15208F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1837B24F-0B22-47D4-BC15-1845EC746AFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1837B24F-0B22-47D4-BC15-1845EC746AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1837B24F-0B22-47D4-BC15-1845EC746AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1837B24F-0B22-47D4-BC15-1845EC746AFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{961A36A0-D96B-4502-B148-C3A093090737} = {C3BF7C40-EEA5-4F16-A61E-8D623830F835}
-		{51367A17-1BB7-4F85-B12A-A3B11D15208F} = {632A4E85-8729-4FBF-85DB-50BA18515112}
-		{1837B24F-0B22-47D4-BC15-1845EC746AFD} = {8D190D2E-D9A4-4720-9E51-E6B9581E9AB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0B07A6A8-9429-4911-A2E6-1DB6AFE06791}
