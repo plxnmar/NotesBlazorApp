@@ -85,23 +85,27 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		//try
-		//{
-		//var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-		//var user = authState.User;
-		await GetColors();
-		//}
-		//catch (AccessTokenNotAvailableException exception)
-		//{
-		//exception.Redirect();
-		//}
+		try
+		{
+			await GetColors();
+		}
+		catch (AccessTokenNotAvailableException exception)
+		{
+			exception.Redirect();
+		}
 	}
 
 	private async Task SaveNote()
 	{
 		if (Note.Id != 0)
 		{
+			Note.User = new ApplicationUser();
 			Note.ChangedDate = DateTime.Now;
+
+			if (true)
+			{
+				
+			}
 			await Http.PutAsJsonAsync("api/notes", Note);
 
 			ColorEdit = "";
@@ -112,7 +116,7 @@
 			Note.ChangedDate = DateTime.Now;
 			Note.UserId = "";
 			Note.User = new ApplicationUser();
-			var res = await Http.PostAsJsonAsync("api/notes", Note);
+			await Http.PostAsJsonAsync("api/notes", Note);
 
 			Note = new Note();
 			colorAdd = "";
@@ -123,10 +127,7 @@
 
 	protected async Task GetColors()
 	{
-		//if (user.Identity.IsAuthenticated)
-		//{
 		colorList = await Http.GetFromJsonAsync<List<ColorCard>>("api/colors");
-		//}
 	}
 
 

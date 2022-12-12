@@ -7,7 +7,7 @@ namespace NotesBlazorApp.Server.Interfaces
         IEnumerable<Note> GetNotes(string userId);
         Task<Note> GetNote(int id);
         Task<bool> AddNote(Note note, string userId);
-        bool UpdateNote(Note note);
+        Task<bool> UpdateNote(Note note);
         Task<bool> DeleteNote(int id);
     }
 }

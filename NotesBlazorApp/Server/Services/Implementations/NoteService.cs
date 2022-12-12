@@ -23,7 +23,6 @@ namespace NotesBlazorApp.Server.Services
                     .Where(x => x.UserId == userId)
                     .OrderByDescending(x => x.ChangedDate).ToList();
 
-
                 return notes;
             }
 
@@ -80,7 +79,7 @@ namespace NotesBlazorApp.Server.Services
             }
         }
 
-        public bool UpdateNote(Note note)
+        public async Task<bool> UpdateNote(Note note)
         {
             try
             {

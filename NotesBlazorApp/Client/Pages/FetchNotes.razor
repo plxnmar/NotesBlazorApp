@@ -85,31 +85,17 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		//var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-		//var user = authState.User;
-		//if (user.Identity?.IsAuthenticated == true)
-		//{
-		//try
-		//{
+		try
+		{
+			await UpdateNotes();	
+			await JSRuntime.InvokeVoidAsync("initAutoSizeTextArea");
+		}
+		catch (AccessTokenNotAvailableException exception)
+		{
+			exception.Redirect();
+		}
 
-		//var name = user.Identity.Name;
-		//var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
-
-		//		string userId = SignInManager
-		//.AuthenticationManager
-		//.AuthenticationResponseGrant.Identity.GetUserId();
-
-		await UpdateNotes();
-
-
-
-		//}
-		//catch (AccessTokenNotAvailableException exception)
-		//{
-		//exception.Redirect();
-		//}
-		//}
-		//await JSRuntime.InvokeVoidAsync("initAutoSizeTextArea");
+	
 	}
 
 	private async Task UpdateNotes()
@@ -134,11 +120,7 @@
 
 	protected async Task GetNotes()
 	{
-		//if (user.Identity?.IsAuthenticated == true)
-		//{
-		//var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
 		noteList = await Http.GetFromJsonAsync<List<Note>>("api/notes");
-		//}
 	}
 
 	public async Task GetNote(int id)

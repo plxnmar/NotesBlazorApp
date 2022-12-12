@@ -63,9 +63,9 @@ namespace NotesBlazorApp.Server.Controllers
         }
 
         [HttpPut]
-        public void Put(Note note)
+        public async void Put(Note note)
         {
-            _noteService.UpdateNote(note);
+           await _noteService.UpdateNote(note);
         }
 
         [HttpDelete("{id}")]
