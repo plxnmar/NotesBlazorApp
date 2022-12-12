@@ -9,7 +9,7 @@ namespace NotesBlazorApp.DAL
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-         
+            Database.EnsureCreated();
         }
 
         public DbSet<Note> Notes { get; set; }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using NotesBlazorApp.DAL;
 using NotesBlazorApp.Server.Data;
 using NotesBlazorApp.Server.Models;
 
@@ -11,7 +12,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationUsersDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContext<ApplicationUsersDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
