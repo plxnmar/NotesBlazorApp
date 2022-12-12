@@ -24,22 +24,28 @@
 		@foreach (var note in noteList)
 		{
 			<div class="masonry-col col-sm-6 col-lg-3 mb-4">
+
 				@{
 					var color = (note.ColorCard == null ? "white" : $"#{note.ColorCard.Name}");
 				}
+
 				<div class="card" style="background-color: @color">
-					<div class="card-body"
+
+					<div class="card-header bg-transparent border-0 p-1">
+						<div class="form-group h-25 m-1 d-flex">
+							<button type="submit" class="btn ms-auto" style="height: 30px" @onclick="(async () => await RemoveNote(note.Id))">
+								<i class="fa-solid fa-xmark"></i>
+							</button>
+						</div>
+					</div>
+
+					<div class="card-body pt-1"
 				 onclick="@(() => ShowModal(note.Id))" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<h5 class="card-title">@note.Title</h5>
 						<p class="card-text"><pre>@note.Details</pre></p>
 						<p class="card-text"><small class="text-muted">@note.ChangedDate.ToString("d MMM yyyy") г.</small></p>
 					</div>
-					<div class="card-footer bg-transparent border-0">
-						<div class="form-group">
-							<input type="submit" value="Удалить" @onclick="(async () => await RemoveNote(note.Id))" class="btn" />
-						</div>
 
-					</div>
 				</div>
 			</div>
 		}
@@ -66,8 +72,8 @@
 
 <style>
 	pre {
-  white-space: pre-wrap;
-}
+		white-space: pre-wrap;
+	}
 
 </style>
 @code {
@@ -83,25 +89,25 @@
 		//var user = authState.User;
 		//if (user.Identity?.IsAuthenticated == true)
 		//{
-			//try
-			//{
+		//try
+		//{
 
-			//var name = user.Identity.Name;
-			//var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+		//var name = user.Identity.Name;
+		//var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
-			//		string userId = SignInManager
-			//.AuthenticationManager
-			//.AuthenticationResponseGrant.Identity.GetUserId();
+		//		string userId = SignInManager
+		//.AuthenticationManager
+		//.AuthenticationResponseGrant.Identity.GetUserId();
 
-			await UpdateNotes();
+		await UpdateNotes();
 
 
 
-			//}
-			//catch (AccessTokenNotAvailableException exception)
-			//{
-			//exception.Redirect();
-			//}
+		//}
+		//catch (AccessTokenNotAvailableException exception)
+		//{
+		//exception.Redirect();
+		//}
 		//}
 		//await JSRuntime.InvokeVoidAsync("initAutoSizeTextArea");
 	}
@@ -130,8 +136,8 @@
 	{
 		//if (user.Identity?.IsAuthenticated == true)
 		//{
-			//var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
-			noteList = await Http.GetFromJsonAsync<List<Note>>("api/notes");
+		//var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+		noteList = await Http.GetFromJsonAsync<List<Note>>("api/notes");
 		//}
 	}
 
