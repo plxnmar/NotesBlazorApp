@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Notes.BLL.Interfaces;
-using Notes.Domain.Entities;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using NotesBlazorApp.BLL.Interfaces;
+using NotesBlazorApp.Domain.Entities;
 
-namespace Notes.Server.Controllers
+namespace NotesBlazorApp.Server.Controllers
 {
     [Route("api/notes")]
     [ApiController]
