@@ -1,8 +1,11 @@
-﻿@using NotesBlazorApp.Domain.Entities
-@inject HttpClient Http
+﻿@inject HttpClient Http
 @inject IJSRuntime JSRuntime
 @using Microsoft.AspNetCore.Components;
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@using NotesBlazorApp.Shared;
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 @{
 	var detailsStyle = (Note.Id == 0) ? "note-add" : "note-edit";
@@ -23,13 +26,17 @@
 					Цвета
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-					@foreach (var color in colorList)
+					@if ((colorList != null) && (colorList.Count() > 0))
 					{
-						<li class="d-inline">
-							<a class="dropdown-item m-1 d-inline" href="#" style="background-color: #@color.Name; width: 1rem; height:2rem"
+						@foreach (var color in colorList)
+						{
+							<li class="d-inline">
+								<a class="dropdown-item m-1 d-inline" href="#" style="background-color: #@color.Name; width: 1rem; height:2rem"
 						   @onclick="(() => SetColor(color))"></a>
-						</li>
+							</li>
+						}
 					}
+
 				</ul>
 			</div>
 		</div>
@@ -72,18 +79,22 @@
 
 	private string? colorAdd;
 
+	ClaimsPrincipal user = new();
+
 
 
 	protected override async Task OnInitializedAsync()
 	{
-		try
-		{
-			await GetColors();
-		}
-		catch (AccessTokenNotAvailableException exception)
-		{
-			exception.Redirect();
-		}
+		//try
+		//{
+		//var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		//var user = authState.User;
+		await GetColors();
+		//}
+		//catch (AccessTokenNotAvailableException exception)
+		//{
+		//exception.Redirect();
+		//}
 	}
 
 	private async Task SaveNote()
@@ -99,7 +110,9 @@
 		{
 			Note.CreatedDate = DateTime.Now;
 			Note.ChangedDate = DateTime.Now;
-			await Http.PostAsJsonAsync("api/notes", Note);
+			Note.UserId = "";
+			Note.User = new ApplicationUser();
+			var res = await Http.PostAsJsonAsync("api/notes", Note);
 
 			Note = new Note();
 			colorAdd = "";
@@ -110,7 +123,10 @@
 
 	protected async Task GetColors()
 	{
+		//if (user.Identity.IsAuthenticated)
+		//{
 		colorList = await Http.GetFromJsonAsync<List<ColorCard>>("api/colors");
+		//}
 	}
 
 

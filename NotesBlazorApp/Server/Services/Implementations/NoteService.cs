@@ -1,27 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NotesBlazorApp.BLL.Interfaces;
-using NotesBlazorApp.DAL;
-using NotesBlazorApp.Domain.Entities;
+using NotesBlazorApp.Server.Data;
+using NotesBlazorApp.Server.Interfaces;
+using NotesBlazorApp.Shared;
 
-namespace NotesBlazorApp.BLL.Services
+namespace NotesBlazorApp.Server.Services
 {
     public class NoteService : INoteService
     {
-        readonly ApplicationContext _dbContext = new();
+        readonly ApplicationDbContext _dbContext;
 
-        public NoteService(ApplicationContext dbContext)
+        public NoteService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         public IEnumerable<Note> GetNotes(string userId)
         {
-  
             try
             {
-               var notes =  _dbContext.Notes
+                var notes = _dbContext.Notes
                     .Include(x => x.ColorCard).ToList()
+                    .Where(x => x.UserId == userId)
                     .OrderByDescending(x => x.ChangedDate).ToList();
+
+
                 return notes;
             }
 
@@ -55,14 +57,22 @@ namespace NotesBlazorApp.BLL.Services
         }
 
 
-        public async Task<bool> AddNote(Note note)
+        public async Task<bool> AddNote(Note note, string userId)
         {
             try
             {
-                await _dbContext.Notes.AddAsync(note);
-                _dbContext.SaveChanges();
+                var user = _dbContext.Users.FirstOrDefault(x => x.Id == userId);
+                if (user != null)
+                {
+                    note.UserId = userId;
+                    note.User = user;
 
-                return true;
+                    await _dbContext.Notes.AddAsync(note);
+                    _dbContext.SaveChanges();
+                    return true;
+                }
+
+                return false;
             }
             catch
             {

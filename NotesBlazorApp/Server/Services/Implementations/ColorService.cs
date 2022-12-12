@@ -1,16 +1,16 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using NotesBlazorApp.BLL.Interfaces;
-using NotesBlazorApp.DAL;
-using NotesBlazorApp.Domain.Entities;
+using NotesBlazorApp.Server.Data;
+using NotesBlazorApp.Server.Interfaces;
+using NotesBlazorApp.Shared;
 
-namespace NotesBlazorApp.BLL.Services
+namespace NotesBlazorApp.Server.Services
 {
     public class ColorService : IColorService
     {
-        readonly ApplicationContext _dbContext = new();
+        readonly ApplicationDbContext _dbContext;
 
-        public ColorService(ApplicationContext dbContext)
+        public ColorService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }

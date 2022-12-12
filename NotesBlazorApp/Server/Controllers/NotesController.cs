@@ -1,24 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NotesBlazorApp.BLL.Interfaces;
-using NotesBlazorApp.Domain.Entities;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using NotesBlazorApp.Server.Interfaces;
+using NotesBlazorApp.Shared;
 
 namespace NotesBlazorApp.Server.Controllers
 {
+    [Authorize]
     [Route("api/notes")]
     [ApiController]
     public class NotesController : ControllerBase
     {
+        private readonly UserManager<ApplicationUser> userManager;
+
         private readonly INoteService _noteService;
 
-        public NotesController(INoteService noteService)
+        public NotesController(INoteService noteService, UserManager<ApplicationUser> userManager)
         {
             this._noteService = noteService;
+            this.userManager = userManager;
         }
 
         [HttpGet]
-        public IEnumerable<Note> GetAll()
+        public async Task<IEnumerable<Note>> GetAll()
         {
-            return _noteService.GetNotes();
+            var user = await userManager.GetUserAsync(User);
+
+            if (user != null)
+            {
+                return _noteService.GetNotes(user.Id);
+            }
+            return null;
         }
 
         [HttpGet("{id}")]
@@ -36,9 +48,18 @@ namespace NotesBlazorApp.Server.Controllers
         }
 
         [HttpPost]
-        public void Post(Note note)
+        public async Task<IActionResult> Post(Note Note)
         {
-            _noteService.AddNote(note);
+            var user = await userManager.GetUserAsync(User);
+
+            if (user != null)
+            {
+                var res = await _noteService.AddNote(Note, user.Id);
+                return Ok(res);
+            }
+
+            return NotFound();
+
         }
 
         [HttpPut]

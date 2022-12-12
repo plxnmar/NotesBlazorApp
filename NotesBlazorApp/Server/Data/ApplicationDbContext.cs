@@ -1,20 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NotesBlazorApp.Domain.Entities;
+﻿using Duende.IdentityServer.EntityFramework.Options;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using NotesBlazorApp.Shared;
 
-namespace NotesBlazorApp.DAL
+namespace NotesBlazorApp.Server.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
-        public ApplicationDbContext() { }
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions options,
+        IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
-            Database.EnsureCreated();
         }
 
         public DbSet<Note> Notes { get; set; }
         public DbSet<ColorCard> ColorCards { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

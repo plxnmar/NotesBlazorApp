@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NotesBlazorApp.Domain.Entities
+namespace NotesBlazorApp.Shared
 {
     public class Note
     {
         public int Id { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
         public string? Title { get; set; }
         public string? Details { get; set; }
         public DateTime CreatedDate { get; set; }

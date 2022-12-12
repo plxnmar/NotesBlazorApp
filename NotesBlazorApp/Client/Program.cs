@@ -13,6 +13,7 @@ builder.Services.AddHttpClient("NotesBlazorApp.ServerAPI", client => client.Base
 // Supply HttpClient instances that include access tokens when making requests to the server project
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("NotesBlazorApp.ServerAPI"));
 
+
 builder.Services.AddApiAuthorization();
 
 await builder.Build().RunAsync();

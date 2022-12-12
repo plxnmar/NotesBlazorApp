@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NotesBlazorApp.BLL.Interfaces;
-using NotesBlazorApp.Domain.Entities;
+using NotesBlazorApp.Server.Interfaces;
+using NotesBlazorApp.Shared;
 
 namespace NotesBlazorApp.Server.Controllers
 {

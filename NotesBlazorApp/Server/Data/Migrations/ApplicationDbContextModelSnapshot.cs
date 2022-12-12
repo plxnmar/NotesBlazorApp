@@ -10,14 +10,14 @@ using NotesBlazorApp.Server.Data;
 
 namespace NotesBlazorApp.Server.Data.Migrations
 {
-    [DbContext(typeof(ApplicationUsersDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.0-rc.1.20417.2")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -38,7 +38,7 @@ namespace NotesBlazorApp.Server.Data.Migrations
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasMaxLength(51100)
+                        .HasMaxLength(50000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -75,7 +75,6 @@ namespace NotesBlazorApp.Server.Data.Migrations
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.Key", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Algorithm")
@@ -88,7 +87,6 @@ namespace NotesBlazorApp.Server.Data.Migrations
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasMaxLength(51100)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("DataProtected")
@@ -98,7 +96,6 @@ namespace NotesBlazorApp.Server.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Use")
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Version")
@@ -108,7 +105,7 @@ namespace NotesBlazorApp.Server.Data.Migrations
 
                     b.HasIndex("Use");
 
-                    b.ToTable("Keys", (string)null);
+                    b.ToTable("Keys");
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
@@ -130,7 +127,7 @@ namespace NotesBlazorApp.Server.Data.Migrations
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasMaxLength(51100)
+                        .HasMaxLength(50000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -303,7 +300,7 @@ namespace NotesBlazorApp.Server.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("NotesBlazorApp.Server.Models.ApplicationUser", b =>
+            modelBuilder.Entity("NotesBlazorApp.Shared.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -368,6 +365,66 @@ namespace NotesBlazorApp.Server.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("NotesBlazorApp.Shared.ColorCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("ColorCards");
+                });
+
+            modelBuilder.Entity("NotesBlazorApp.Shared.Note", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("ChangedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ColorCardId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ColorCardId");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -379,7 +436,7 @@ namespace NotesBlazorApp.Server.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("NotesBlazorApp.Server.Models.ApplicationUser", null)
+                    b.HasOne("NotesBlazorApp.Shared.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -388,7 +445,7 @@ namespace NotesBlazorApp.Server.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("NotesBlazorApp.Server.Models.ApplicationUser", null)
+                    b.HasOne("NotesBlazorApp.Shared.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -403,7 +460,7 @@ namespace NotesBlazorApp.Server.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NotesBlazorApp.Server.Models.ApplicationUser", null)
+                    b.HasOne("NotesBlazorApp.Shared.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -412,11 +469,38 @@ namespace NotesBlazorApp.Server.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("NotesBlazorApp.Server.Models.ApplicationUser", null)
+                    b.HasOne("NotesBlazorApp.Shared.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("NotesBlazorApp.Shared.Note", b =>
+                {
+                    b.HasOne("NotesBlazorApp.Shared.ColorCard", "ColorCard")
+                        .WithMany("Notes")
+                        .HasForeignKey("ColorCardId");
+
+                    b.HasOne("NotesBlazorApp.Shared.ApplicationUser", "User")
+                        .WithMany("Notes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ColorCard");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("NotesBlazorApp.Shared.ApplicationUser", b =>
+                {
+                    b.Navigation("Notes");
+                });
+
+            modelBuilder.Entity("NotesBlazorApp.Shared.ColorCard", b =>
+                {
+                    b.Navigation("Notes");
                 });
 #pragma warning restore 612, 618
         }
