@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NotesBlazorApp.Server.Data;
 
@@ -11,9 +12,10 @@ using NotesBlazorApp.Server.Data;
 namespace NotesBlazorApp.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221213105949_DescriptionPropertyToColorAdd")]
+    partial class DescriptionPropertyToColorAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -387,38 +389,6 @@ namespace NotesBlazorApp.Server.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("ColorCards");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "White",
-                            Name = "FFFFFF"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Red",
-                            Name = "FC6471"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Yellow",
-                            Name = "FFD275"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Green Celadon",
-                            Name = "A1E5AB"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Blue Purple",
-                            Name = "B2ABF2"
-                        });
                 });
 
             modelBuilder.Entity("NotesBlazorApp.Shared.Note", b =>

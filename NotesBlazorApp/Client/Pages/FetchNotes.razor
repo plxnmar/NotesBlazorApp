@@ -69,13 +69,12 @@
 </div>
 
 
-
 <style>
 	pre {
 		white-space: pre-wrap;
 	}
-
 </style>
+
 @code {
 
 	private List<Note> noteList = new();
@@ -93,9 +92,7 @@
 		catch (AccessTokenNotAvailableException exception)
 		{
 			exception.Redirect();
-		}
-
-	
+		}	
 	}
 
 	private async Task UpdateNotes()

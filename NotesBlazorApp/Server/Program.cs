@@ -18,10 +18,6 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-//builder.Services.AddDbContext<ApplicationContext>(options =>
-//    options.UseSqlServer(connectionString));
-
-
 builder.Services.AddTransient<INoteService, NoteService>();
 builder.Services.AddTransient<IColorService, ColorService>();
 

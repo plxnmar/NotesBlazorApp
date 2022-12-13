@@ -33,6 +33,18 @@ namespace NotesBlazorApp.Server.Data
                 entity.HasKey(x => x.Id);
                 entity.HasIndex(color => color.Id).IsUnique();
                 entity.Property(color => color.Name).HasMaxLength(6);
+                entity.Property(color => color.Description).HasMaxLength(50);
+            });
+
+            builder.Entity<ColorCard>(entity =>
+            {
+                entity.HasData(
+                    new ColorCard { Id = 1, Name = "FFFFFF", Description = "White" },
+                    new ColorCard { Id = 2, Name = "FC6471", Description = "Red" },
+                    new ColorCard { Id = 3, Name = "FFD275", Description = "Yellow" },
+                    new ColorCard { Id = 4, Name = "A1E5AB", Description = "Green Celadon" },
+                    new ColorCard { Id = 5, Name = "B2ABF2", Description = "Blue Purple" }
+                    );
             });
 
             base.OnModelCreating(builder);

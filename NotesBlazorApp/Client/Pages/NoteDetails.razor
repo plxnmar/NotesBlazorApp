@@ -102,10 +102,6 @@
 			Note.User = new ApplicationUser();
 			Note.ChangedDate = DateTime.Now;
 
-			if (true)
-			{
-				
-			}
 			await Http.PutAsJsonAsync("api/notes", Note);
 
 			ColorEdit = "";
@@ -116,6 +112,7 @@
 			Note.ChangedDate = DateTime.Now;
 			Note.UserId = "";
 			Note.User = new ApplicationUser();
+
 			await Http.PostAsJsonAsync("api/notes", Note);
 
 			Note = new Note();
