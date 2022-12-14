@@ -17,6 +17,15 @@
 - SQL Server
 - Bootstrap
 
+## Данные учетных записей 
+Для авторизации на сайте необходимо ввести следующие данные
+
+Пользователь
+```
+Login: user1234@mail.ru
+Password: qwertY12_
+```
+
 ## Установка
 ```
 git clone https://github.com/plxnmar/NotesBlazorApp.git
@@ -26,7 +35,9 @@ git clone https://github.com/plxnmar/NotesBlazorApp.git
 ## Скриншоты 
 
 Редактирование заметки
+
 ![ScreenShot](../plxnmar-screenshots/note_edit.jpg)
 
-Форма для авторизации
+Форма авторизации
+
 ![ScreenShot](../plxnmar-screenshots/login.jpg)
