@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NotesBlazorApp.Server.Interfaces;
-using NotesBlazorApp.Shared;
+using NotesBlazorApp.Shared.Models;
+using NotesBlazorApp.Shared.ViewModels;
 
 namespace NotesBlazorApp.Server.Controllers
 {
@@ -16,7 +17,7 @@ namespace NotesBlazorApp.Server.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ColorCard> GetAll()
+        public IEnumerable<ColorViewModel> GetAll()
         {
             return _colorService.GetColors();
         }
@@ -25,7 +26,7 @@ namespace NotesBlazorApp.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            ColorCard color = await _colorService.GetColor(id);
+            var color = await _colorService.GetColor(id);
             if (color != null)
             {
                 return Ok(color);

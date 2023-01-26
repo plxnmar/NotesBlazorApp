@@ -1,13 +1,14 @@
-﻿using NotesBlazorApp.Shared;
+﻿using NotesBlazorApp.Shared.Models;
+using NotesBlazorApp.Shared.ViewModels;
 
 namespace NotesBlazorApp.Server.Interfaces
 {
     public interface INoteService
     {
-        IEnumerable<Note> GetNotes(string userId);
-        Task<Note> GetNote(int id);
-        Task<bool> AddNote(Note note, string userId);
-        Task<bool> UpdateNote(Note note);
+        IEnumerable<NoteViewModel> GetNotes(string userId);
+        Task<NoteViewModel> GetNote(int id);
+        Task<bool> AddNote(NoteViewModel note, string userId);
+        Task<bool> UpdateNote(NoteViewModel note, string userId);
         Task<bool> DeleteNote(int id);
     }
 }

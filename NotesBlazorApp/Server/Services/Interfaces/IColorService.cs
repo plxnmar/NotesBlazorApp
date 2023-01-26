@@ -1,10 +1,11 @@
-﻿using NotesBlazorApp.Shared;
+﻿using NotesBlazorApp.Shared.Models;
+using NotesBlazorApp.Shared.ViewModels;
 
 namespace NotesBlazorApp.Server.Interfaces
 {
     public interface IColorService
     {
-        IEnumerable<ColorCard> GetColors();
-        Task<ColorCard> GetColor(int id);
+        IEnumerable<ColorViewModel> GetColors();
+        Task<ColorViewModel> GetColor(int id);
     }
 }

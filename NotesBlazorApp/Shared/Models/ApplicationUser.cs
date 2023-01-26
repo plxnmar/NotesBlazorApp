@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace NotesBlazorApp.Shared
+namespace NotesBlazorApp.Shared.Models
 {
     public class ApplicationUser : IdentityUser
     {

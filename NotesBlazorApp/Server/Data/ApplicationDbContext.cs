@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using NotesBlazorApp.Shared;
+using NotesBlazorApp.Shared.Models;
 using static Duende.IdentityServer.Models.IdentityResources;
 
 namespace NotesBlazorApp.Server.Data

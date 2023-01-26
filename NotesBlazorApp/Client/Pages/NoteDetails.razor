@@ -2,7 +2,8 @@
 @inject IJSRuntime JSRuntime
 @using Microsoft.AspNetCore.Components;
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-@using NotesBlazorApp.Shared;
+@using NotesBlazorApp.Shared.Models;
+@using NotesBlazorApp.Shared.ViewModels;
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -67,7 +68,7 @@
 @code {
 
 	[Parameter]
-	public Note Note { get; set; } = new();
+	public NoteViewModel Note { get; set; } = new();
 
 	[Parameter]
 	public string? ColorEdit { get; set; }
@@ -75,11 +76,9 @@
 	[Parameter]
 	public EventCallback SubmitFormNote { get; set; }
 
-	private List<ColorCard> colorList = new();
+	private List<ColorViewModel> colorList = new();
 
 	private string? colorAdd;
-
-	ClaimsPrincipal user = new();
 
 
 
@@ -99,7 +98,6 @@
 	{
 		if (Note.Id != 0)
 		{
-			Note.User = new ApplicationUser();
 			Note.ChangedDate = DateTime.Now;
 
 			await Http.PutAsJsonAsync("api/notes", Note);
@@ -110,12 +108,10 @@
 		{
 			Note.CreatedDate = DateTime.Now;
 			Note.ChangedDate = DateTime.Now;
-			Note.UserId = "";
-			Note.User = new ApplicationUser();
 
 			await Http.PostAsJsonAsync("api/notes", Note);
 
-			Note = new Note();
+			Note = new NoteViewModel();
 			colorAdd = "";
 		}
 		await SubmitFormNote.InvokeAsync();
@@ -124,11 +120,11 @@
 
 	protected async Task GetColors()
 	{
-		colorList = await Http.GetFromJsonAsync<List<ColorCard>>("api/colors");
+		colorList = await Http.GetFromJsonAsync<List<ColorViewModel>>("api/colors");
 	}
 
 
-	public void SetColor(ColorCard colorCard)
+	public void SetColor(ColorViewModel colorCard)
 	{
 		this.Note.ColorCardId = colorCard.Id;
 
@@ -147,7 +143,7 @@
 
 	public void CancelSubmit()
 	{
-		Note = new Note();
+		Note = new NoteViewModel();
 		colorAdd = "";
 	}
 }

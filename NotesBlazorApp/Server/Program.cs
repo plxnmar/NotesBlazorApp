@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using NotesBlazorApp.Server.Data;
 using NotesBlazorApp.Server.Interfaces;
+using NotesBlazorApp.Server.Mappings;
 using NotesBlazorApp.Server.Services;
-using NotesBlazorApp.Shared;
+using NotesBlazorApp.Shared.Models;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 
@@ -17,6 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddTransient<INoteService, NoteService>();
 builder.Services.AddTransient<IColorService, ColorService>();

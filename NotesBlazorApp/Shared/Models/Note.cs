@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NotesBlazorApp.Shared
+namespace NotesBlazorApp.Shared.Models
 {
     public class Note
     {
