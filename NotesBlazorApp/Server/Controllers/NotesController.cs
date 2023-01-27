@@ -59,7 +59,6 @@ namespace NotesBlazorApp.Server.Controllers
 			}
 
 			return NotFound();
-
 		}
 
 		[HttpPut]

@@ -43,7 +43,7 @@
 					<div class="card-body pt-1"
 				 onclick="@(() => ShowModal(note.Id))" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<h5 class="card-title">@note.Title</h5>
-						<p class="card-text"><pre>@note.Details</pre></p>
+						<p class="card-text"><pre style="white-space: pre-wrap;">@note.Details</pre></p>
 						<p class="card-text"><small class="text-muted">@note.ChangedDate.ToString("d MMM yyyy") г.</small></p>
 					</div>
 
@@ -61,26 +61,17 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content p-0">
 			<div class="modal-body p-0">
-				<NoteDetails Note=@note
-							 ColorEdit="@(note.ColorCard == null ? "white" : note.ColorCard.Name)"
-							 SubmitFormNote="@UpdateNotes" />
+				<NoteDetails Note=@note SubmitFormNote="@UpdateNotes"/>
 			</div>
 		</div>
 	</div>
 </div>
 
 
-<style>
-	pre {
-		white-space: pre-wrap;
-	}
-</style>
-
 @code {
 
 	private List<NoteViewModel> notes = new();
 	private NoteViewModel note = new();
-	ClaimsPrincipal user = new();
 
 
 	protected override async Task OnInitializedAsync()

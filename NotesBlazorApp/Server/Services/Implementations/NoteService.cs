@@ -67,6 +67,7 @@ namespace NotesBlazorApp.Server.Services
 			try
 			{
 				var noteModel = _mapper.Map<Note>(noteViewModel);
+				//var colorModel = _mapper.Map<ColorCard>(noteViewModel.ColorCard);
 
 				noteModel.UserId = userId;
 

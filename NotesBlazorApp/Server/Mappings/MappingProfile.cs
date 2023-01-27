@@ -14,8 +14,10 @@ namespace NotesBlazorApp.Server.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<Note, NoteViewModel>().ReverseMap();
-            CreateMap<ColorCard, ColorViewModel>().ReverseMap();
+            CreateMap<Note, NoteViewModel>();
+
+            CreateMap<NoteViewModel, Note>().ForMember(dest => dest.ColorCard, opt => opt.Ignore());
+			CreateMap<ColorCard, ColorViewModel>().ReverseMap();
 		}
     }
 }
